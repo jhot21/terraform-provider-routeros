@@ -9,6 +9,7 @@ import (
   "detect-interface-list": "none",
   "internet-interface-list": "none",
   "lan-interface-list": "none",
+  "request-interval": "2m",
   "wan-interface-list": "none"
 }
 */
@@ -35,6 +36,13 @@ func ResourceInterfaceDetectInternet() *schema.Resource {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "Interfaces with state Lan will be dynamically added to this list.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
+		"request_interval": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "How often Detect Internet probes the monitored interfaces (RouterOS 7.2x+).",
+			ValidateFunc:     ValidationTime,
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"wan_interface_list": {
