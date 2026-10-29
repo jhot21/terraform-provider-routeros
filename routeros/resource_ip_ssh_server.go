@@ -21,6 +21,9 @@ func ResourceIpSSHServer() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ip/ssh"),
 		MetaId:           PropId(Id),
+		// RouterOS 7.23 removed allow-none-crypto; sending it fails with "unknown parameter".
+		// Stays in the schema so existing configs/state still parse, but is never sent or read.
+		MetaSkipFields: PropSkipFields("allow_none_crypto"),
 
 		"allow_none_crypto": {
 			Type:         schema.TypeBool,
