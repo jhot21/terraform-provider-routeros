@@ -1,0 +1,9 @@
+version: "3"
+
+tasks:
+  build:
+    desc: Build the provider binary into dist/ (used via terraform dev_overrides)
+    env:
+      GOWORK: "off"
+    cmds:
+      - mise exec -- go build -o dist/terraform-provider-routeros .
