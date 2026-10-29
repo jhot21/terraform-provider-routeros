@@ -11,6 +11,7 @@ import (
   "always-allow-password-login": "false",
   "forwarding-enabled": "no",
   "host-key-size": "2048",
+  "password-authentication": "no",
   "strong-crypto": "false"
 }
 */
@@ -63,6 +64,16 @@ func ResourceIpSSHServer() *schema.Resource {
 			Optional:         true,
 			Description:      "Select host key type.",
 			ValidateFunc:     validation.StringInSlice([]string{"rsa", "ed25519"}, false),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
+		"password_authentication": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "Controls password login (RouterOS 7.23+, replaces `always_allow_password_login`)." +
+				"\n  * no - password login is disabled;" +
+				"\n  * yes - password login is always allowed;" +
+				"\n  * yes-if-no-key - password login is allowed only for users without a public key.",
+			ValidateFunc:     validation.StringInSlice([]string{"no", "yes", "yes-if-no-key"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"publickey_authentication_options": {

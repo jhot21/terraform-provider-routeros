@@ -25,6 +25,10 @@ resource "routeros_ip_ssh_server" "test" {
   * both - Allow both local and remote forwarding methods.
 - `host_key_size` (Number) RSA key size when host key is being regenerated.
 - `host_key_type` (String) Select host key type.
+- `password_authentication` (String) Controls password login (RouterOS 7.23+, replaces `always_allow_password_login`).
+  * no - password login is disabled;
+  * yes - password login is always allowed;
+  * yes-if-no-key - password login is allowed only for users without a public key.
 - `publickey_authentication_options` (String) Sets public key authentication options.
 The touch-required option causes public key authentication using a FIDO authenticator algorithm to always require the signature to attest that a physically present user explicitlyconfirmed the authentication (usually by touching the authenticator).
 The verify-required option requires a FIDO key signature attest that the user was verified, e.g. via a PIN.
